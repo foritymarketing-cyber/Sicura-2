@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "sicura",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["-e", "const http=require('http'),fs=require('fs'),p=require('path');const root='/Users/lorishorter/Documents/Sicura Sicherheitstechnik';const t={'.html':'text/html','.css':'text/css','.js':'text/javascript','.png':'image/png','.jpg':'image/jpeg','.svg':'image/svg+xml','.ico':'image/x-icon','.xml':'application/xml','.txt':'text/plain'};function send(res,f,d){res.writeHead(200,{'Content-Type':t[p.extname(f)]||'application/octet-stream'});res.end(d);}http.createServer((req,res)=>{let u=decodeURIComponent(req.url.split('?')[0]);if(u==='/')u='/index.html';const f=p.join(root,u);if(!f.startsWith(root)){res.writeHead(403);res.end('403');return;}fs.readFile(f,(e,d)=>{if(!e)return send(res,f,d);const alt=f.replace(/\\/$/,'')+'.html';fs.readFile(alt,(e2,d2)=>{if(!e2)return send(res,alt,d2);const idx=p.join(f,'index.html');fs.readFile(idx,(e3,d3)=>{if(!e3)return send(res,idx,d3);res.writeHead(404);res.end('404');});});});}).listen(4322,'127.0.0.1',()=>console.log('up on 4322'));"],
+      "port": 4322
+    }
+  ]
+}
