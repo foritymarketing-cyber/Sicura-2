@@ -25,13 +25,16 @@
     scroll(animate(bar, { scaleX: [0, 1] }, { ease: 'linear' }));
   }
 
-  /* ---- Hero / Seitenkopf: Einblendung beim Laden ---- */
+  /* ---- Hero / Seitenkopf: Einblendung beim Laden ----
+     Kritisch gedämpfte Spring (bounce: 0) statt fixer Cubic-Bezier-Dauer:
+     kein Überschwingen, da das Einblenden nicht aus einer Geste mit
+     Schwung entsteht (siehe Apple "Designing Fluid Interfaces"). */
   var intro = document.querySelector('.hero-content') || document.querySelector('.page-hero .container');
   if (intro) {
     animate(
       intro,
       { opacity: [0, 1], y: [24, 0] },
-      { duration: 0.7, delay: 0.1, easing: [0.22, 1, 0.36, 1] }
+      { type: 'spring', bounce: 0, duration: 0.5, delay: 0.1 }
     );
   }
 })();
