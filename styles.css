@@ -376,6 +376,44 @@ textarea:focus-visible {
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(228, 233, 235, 0.8);
+  opacity: 1;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+/* ---- Transparenter Header über dem Video-Hero ----
+   Nur auf Seiten mit `body.has-video-hero` (Startseite): der Header startet
+   glasklar über dem Hero-Video und bekommt sein übliches weißes Glas erst,
+   sobald über die Hero-Höhe hinausgescrollt wurde (.is-scrolled, per JS in
+   script.js gesetzt). Alle anderen Seiten sind unverändert immer solide. */
+body.has-video-hero .site-header:not(.is-scrolled)::before {
+  opacity: 0;
+}
+
+body.has-video-hero .site-header:not(.is-scrolled) .nav-progress {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+body.has-video-hero .site-header:not(.is-scrolled) .brand,
+body.has-video-hero .site-header:not(.is-scrolled) .brand-mark,
+body.has-video-hero .site-header:not(.is-scrolled) .brand-name span,
+body.has-video-hero .site-header:not(.is-scrolled) .nav-links a,
+body.has-video-hero .site-header:not(.is-scrolled) .nav-toggle svg {
+  color: #fff;
+}
+
+body.has-video-hero .site-header:not(.is-scrolled) .nav-cta {
+  background: #fff;
+  color: var(--color-accent-dark);
+}
+
+body.has-video-hero .site-header:not(.is-scrolled) .nav-cta:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.brand,
+.brand-mark,
+.brand-name span {
+  transition: color var(--duration-base) var(--ease-out);
 }
 
 /* Material fallbacks: bei reduzierter Transparenz/erhöhtem Kontrast wird aus
@@ -567,7 +605,9 @@ textarea:focus-visible {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding-block: clamp(56px, 8vw, 128px) var(--section-padding);
+  margin-top: -84px;
+  padding-top: calc(84px + clamp(56px, 8vw, 128px));
+  padding-bottom: var(--section-padding);
   background: linear-gradient(160deg, var(--color-accent-dark) 0%, var(--color-accent) 55%, #2b3338 100%);
 }
 
@@ -645,8 +685,25 @@ textarea:focus-visible {
   pointer-events: none;
 }
 
+.hero-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(160deg, rgba(0, 0, 0, 0.82) 0%, rgba(20, 24, 27, 0.55) 55%, rgba(43, 51, 56, 0.78) 100%);
+}
+
 .lm-blob {
   position: absolute;
+  z-index: 2;
   border-radius: 50%;
   filter: blur(60px);
   mix-blend-mode: screen;
@@ -683,6 +740,7 @@ textarea:focus-visible {
 
 .lm-sheen {
   position: absolute;
+  z-index: 2;
   inset: -20% -60%;
   background: linear-gradient(75deg, transparent 40%, rgba(255, 255, 255, 0.14) 48%, rgba(255, 255, 255, 0.26) 50%, rgba(255, 255, 255, 0.14) 52%, transparent 60%);
   animation: lm-sheen-sweep 9s ease-in-out infinite;

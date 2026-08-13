@@ -37,6 +37,45 @@
     });
   }
 
+  /* ---- Transparenter Header über dem Video-Hero (nur Startseite) ---- */
+  var header = document.querySelector('.site-header');
+
+  if (header && document.body.classList.contains('has-video-hero')) {
+    var scrollThreshold = 40;
+    var headerTicking = false;
+
+    var updateHeaderState = function () {
+      header.classList.toggle('is-scrolled', window.scrollY > scrollThreshold);
+      headerTicking = false;
+    };
+
+    window.addEventListener(
+      'scroll',
+      function () {
+        if (!headerTicking) {
+          window.requestAnimationFrame(updateHeaderState);
+          headerTicking = true;
+        }
+      },
+      { passive: true }
+    );
+
+    updateHeaderState();
+  }
+
+  /* ---- Hero-Video: bei reduzierter Bewegung auf erstem Frame anhalten ---- */
+  var heroVideo = document.querySelector('.hero-video');
+
+  if (heroVideo && prefersReducedMotion) {
+    heroVideo.addEventListener(
+      'loadeddata',
+      function () {
+        heroVideo.pause();
+      },
+      { once: true }
+    );
+  }
+
   /* ---- Scroll-Reveal ---- */
   var revealEls = document.querySelectorAll('[data-reveal]');
 
