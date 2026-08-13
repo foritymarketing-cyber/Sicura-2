@@ -410,6 +410,20 @@ body.has-video-hero .site-header:not(.is-scrolled) .nav-cta:hover {
   background: rgba(255, 255, 255, 0.9);
 }
 
+/* Das mobile Menü hat immer ein blickdichtes, weißes Panel (siehe
+   .nav-desktop.is-open unten) – die weiße Schrift für den transparenten
+   Header über dem Hero-Video darf dort also nicht greifen, sonst ist der
+   Text unlesbar. */
+body.has-video-hero .site-header:not(.is-scrolled) .nav-desktop.is-open .nav-links a,
+body.has-video-hero .site-header:not(.is-scrolled) .nav-desktop.is-open ~ .nav-toggle svg,
+body.has-video-hero .site-header:not(.is-scrolled) .nav-toggle[aria-expanded='true'] svg {
+  color: var(--color-text-muted);
+}
+
+body.has-video-hero .site-header:not(.is-scrolled) .nav-desktop.is-open .nav-links a[aria-current='page'] {
+  color: var(--color-text);
+}
+
 .brand,
 .brand-mark,
 .brand-name span {
