@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import ServiceBlock from '../../components/ServiceBlock.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const title = 'Leistungen – Sicherheitstechnik für Privat und Gewerbe | Sicura';
+const description = 'Videoüberwachung, Einbruchmeldeanlagen, Service und Wartung. Fachbetrieb aus Dalheim für Rheinhessen und das Rhein-Main-Gebiet.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Hero
+    eyebrow="Leistungen"
+    title="Unsere Leistungen"
+    lead="Wir konzentrieren uns auf drei Dinge und machen die richtig: Kameratechnik, Alarmtechnik und die Betreuung danach. Was Sie brauchen, klären wir vor Ort – nicht am Telefon anhand einer Liste."
+  />
+
+  <section class="section">
+    <div class="container-content">
+      <div class="service-stack" data-reveal-group>
+        <ServiceBlock
+          variant="left"
+          index="01"
+          art="camera"
+          title="Videoüberwachung"
+          description="Kameratechnik für Wohnhäuser, Werkstatt, Lager oder Praxis – geplant für die Stellen, an denen sie wirklich etwas bringt. Wir legen Aufnahmebereich, Auflösung und Speicherdauer gemeinsam mit Ihnen fest und richten alles datenschutzkonform ein. Zugriff bekommen Sie bequem über Ihr Telefon."
+          href="/leistungen/videoueberwachung/"
+          ctaLabel="Mehr zur Videoüberwachung"
+        />
+        <ServiceBlock
+          variant="right"
+          index="02"
+          art="alarm"
+          title="Einbruchmeldeanlagen"
+          description="Alarmtechnik, die meldet, bevor Schaden entsteht – als Funk- oder verkabelte Lösung, auch im Bestand nachrüstbar. Sensoren und Melder sichern Türen, Fenster und Innenräume, die Meldung geht direkt auf Ihr Telefon. Sinnvoll ergänzen lässt sich die Anlage durch Außenkameras."
+          href="/leistungen/einbruchmeldeanlagen/"
+          ctaLabel="Mehr zu Einbruchmeldeanlagen"
+        />
+        <ServiceBlock
+          variant="wide"
+          index="03"
+          title="Service und Wartung"
+          description="Wir bleiben nach der Installation Ihr Ansprechpartner für Wartung, Reparatur und Erweiterung. Dazu gehören Funktionsprüfung, Sichtkontrolle und die Prüfung von Akkus und Software – in einem Rhythmus, der zu Ihrer Anlage passt. Betreut werden ausschließlich Anlagen, die wir selbst installiert haben."
+          href="/leistungen/service-wartung/"
+          ctaLabel="Mehr zu Service und Wartung"
+        />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Sie wissen noch nicht, was Sie brauchen?"
+    description="Genau dafür gibt es die kostenlose Schwachstellenanalyse: Wir kommen vorbei, sehen uns das Objekt an und sagen Ihnen ehrlich, was sinnvoll ist – und was nicht."
+  />
+</BaseLayout>
+
+<style>
+  .section { padding-block: var(--s-9); }
+  .service-stack { display: flex; flex-direction: column; }
+</style>

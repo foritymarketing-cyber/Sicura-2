@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import StepList from '../../components/StepList.astro';
+import LogoStrip from '../../components/LogoStrip.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const title = 'Videoüberwachung Dalheim und Rhein-Main | Sicura Sicherheitstechnik';
+const description = 'Kameraanlagen für Haus, Werkstatt, Lager und Praxis. Planung, Installation und Wartung vom Fachbetrieb – datenschutzkonform eingerichtet.';
+
+const steps = [
+  { number: '01', title: 'Beratung', description: 'Kostenlos und unverbindlich, telefonisch oder vor Ort.' },
+  { number: '02', title: 'Planung', description: 'Wir gehen das Objekt ab und legen Positionen, Technik und Speicherdauer fest.' },
+  { number: '03', title: 'Installation', description: 'Saubere Montage, Verkabelung, Inbetriebnahme.' },
+  { number: '04', title: 'Einweisung und Wartung', description: 'Sie bekommen die Anlage erklärt und uns als Ansprechpartner.' },
+];
+
+const faqItems = [
+  { question: 'Brauche ich Internet für die Anlage?', answer: 'Für die reine Aufzeichnung nicht. Für den Zugriff von unterwegs schon.' },
+  { question: 'Wie lange werden Aufnahmen gespeichert?', answer: 'So kurz wie möglich und so lang wie nötig – das legen wir gemeinsam fest.' },
+  { question: 'Kann ich eine vorhandene Anlage erweitern?', answer: 'Wenn wir sie gebaut haben, ja. Anlagen anderer Betriebe übernehmen wir nicht.' },
+  { question: 'Was kostet das?', answer: 'Das hängt vollständig vom Objekt ab. Deshalb sehen wir es uns an, bevor wir eine Zahl nennen.' },
+];
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Leistungen', item: 'https://sicura-sicherheitstechnik.de/leistungen/' },
+    { '@type': 'ListItem', position: 2, name: 'Videoüberwachung', item: 'https://sicura-sicherheitstechnik.de/leistungen/videoueberwachung/' },
+  ],
+};
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Videoüberwachung',
+  provider: { '@type': 'LocalBusiness', name: 'Sicura Sicherheitstechnik' },
+  areaServed: 'Rheinhessen und Rhein-Main-Gebiet',
+};
+---
+
+<BaseLayout title={title} description={description} jsonLd={[breadcrumbLd, serviceLd]}>
+  <Hero
+    eyebrow="Leistungen"
+    title="Videoüberwachung für Zuhause und Gewerbe"
+    lead="Eine Kamera an der falschen Stelle bringt Bilder, mit denen niemand etwas anfangen kann. Wir planen die Anlage so, dass sie im Ernstfall verwertbar ist – und im Alltag niemanden stört."
+  />
+
+  <section class="section prose-content">
+    <div class="container-content prose-content">
+      <h2>Wofür Videoüberwachung sinnvoll ist</h2>
+      <p>Sie schreckt ab, bevor etwas passiert, und sie klärt auf, wenn doch etwas passiert ist. Bei Gewerbeobjekten kommt dazu, dass sich Abläufe nachvollziehen lassen – Wareneingang, Zufahrt, Außenbereich. Was eine Anlage leisten muss, hängt vom Objekt ab: eine Hofeinfahrt braucht etwas anderes als ein Verkaufsraum.</p>
+
+      <h2>Privat</h2>
+      <p>Haus, Hof, Garage, Einfahrt. Meist genügen wenige Kameras an den richtigen Punkten. Aufzeichnung lokal, Zugriff über Ihr Telefon, Bewegungserkennung so eingestellt, dass nicht jede Katze eine Meldung auslöst.</p>
+
+      <h2>Gewerbe</h2>
+      <p>Werkstatt, Lager, Praxis, Verkaufsfläche, Waschanlage. Hier geht es um größere Flächen, mehrere Zugänge und oft um Nachtaufnahmen. Wir planen Kamerapositionen, Bildwinkel und Speicherdauer gemeinsam mit Ihnen und dokumentieren das Ergebnis.</p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container-content">
+      <h2>So läuft es ab</h2>
+      <StepList steps={steps} />
+    </div>
+  </section>
+
+  <section class="section prose-content">
+    <div class="container-content prose-content">
+      <h2>Technik im Klartext</h2>
+      <p>Wir planen und installieren Systeme von Ajax, Hikvision, Axis, Lupus und Jablotron. Welche Marke zum Einsatz kommt, entscheidet das Objekt – nicht ein Rahmenvertrag. Auflösung, Nachtsicht, Speicher: Wir erklären Ihnen die Unterschiede in normaler Sprache, bevor Sie sich entscheiden.</p>
+
+      <h2>Datenschutz gehört zur Planung</h2>
+      <p>Eine Kamera darf nicht alles filmen, was sie filmen könnte. Öffentliche Gehwege, Nachbargrundstücke und in Betrieben auch Arbeitsplätze sind heikel. Wir legen den Aufnahmebereich so fest, dass er zulässig ist, richten die Hinweisbeschilderung ein und stellen eine Speicherdauer ein, die zu Ihrem Zweck passt. Das ist kein Beiwerk – eine falsch ausgerichtete Kamera kann teurer werden als die ganze Anlage. Eine Rechtsberatung ersetzt das nicht; bei komplizierten Konstellationen empfehlen wir, das anwaltlich prüfen zu lassen.</p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container-content">
+      <LogoStrip />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-content prose-content">
+      <h2>Häufige Fragen</h2>
+      <Faq items={faqItems} />
+    </div>
+  </section>
+
+  <CtaBand title="Kostenlose Schwachstellenanalyse anfragen" />
+</BaseLayout>
+
+<style>
+  .section { padding-block: var(--s-9); }
+  .section h2 { margin-bottom: var(--s-4); }
+  .section h2:not(:first-child) { margin-top: var(--s-7); }
+  .section p { color: var(--c-ink-600); max-width: var(--w-text); }
+</style>

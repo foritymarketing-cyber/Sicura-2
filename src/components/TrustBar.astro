@@ -1,0 +1,35 @@
+---
+const items = ['Seit 2010', 'Inhabergeführt', 'Beratung kostenlos', 'Rheinhessen und Rhein-Main'];
+---
+
+<div class="trust-bar">
+  <div class="container-content trust-inner">
+    {items.map((item, i) => (
+      <>
+        <span>{item}</span>
+        {i < items.length - 1 && <span class="dot" aria-hidden="true">·</span>}
+      </>
+    ))}
+  </div>
+</div>
+
+<style>
+  .trust-bar {
+    background: var(--c-paper-50);
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+  .trust-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--s-3);
+    padding-block: var(--s-2);
+    font-size: var(--t-small);
+    color: var(--c-ink-600);
+    text-align: center;
+  }
+  .dot { color: var(--c-line); }
+</style>

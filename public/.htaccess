@@ -1,0 +1,119 @@
+# Sicura Sicherheitstechnik — Server-Konfiguration
+# Quelle der Vorgaben: Notion "07 – Sicherheits- & Kostenkonzept", "03 – Content- & URL-Inventar", "14 – Sitemap".
+
+# --- HTTPS erzwingen, kanonischer Host ohne "www" -----------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  RewriteCond %{HTTP_HOST} ^www\.sicura-sicherheitstechnik\.de$ [NC]
+  RewriteRule ^ https://sicura-sicherheitstechnik.de%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# --- Security-Header ------------------------------------------------------
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), interest-cohort=()"
+  Header always set X-Frame-Options "DENY"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+</IfModule>
+
+# --- Angriffsfläche minimieren ---------------------------------------------
+Options -Indexes
+Options -MultiViews
+
+<FilesMatch "(^\.|\.(env|md|log|lock|json5?|ya?ml|config|bak|backup|sql|sh)$)">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+  RewriteCond %{REQUEST_URI} ^/\.git [NC]
+  RewriteRule ^ - [F]
+</IfModule>
+
+<FilesMatch "^(mail-config\.php|mail-config\.example\.php)$">
+  Require all denied
+</FilesMatch>
+
+# --- 404 --------------------------------------------------------------
+# Astro erzeugt aus src/pages/404.astro immer /404.html (unabhaengig von
+# trailingSlash), deshalb hier ohne Slash referenzieren.
+ErrorDocument 404 /404.html
+
+# --- Redirects: gestrichene Leistungen (Runde 2), 301 auf /leistungen/ ----
+Redirect 301 /alarm-monitoring/ /leistungen/
+Redirect 301 /alarmaufschaltung/ /leistungen/
+Redirect 301 /monitoring-preisliste/ /leistungen/
+Redirect 301 /lone-worker-schutz-einzelarbeitsplatz-schutz/ /leistungen/
+Redirect 301 /gps-ortung/ /leistungen/
+Redirect 301 /gps-ortungsgeraet-unsichtbares-bluetooth-headset-wanzen-wanzenfinder-sos-notrufmelder/ /leistungen/
+Redirect 301 /sorglos-sicherheit-paket/ /leistungen/
+Redirect 301 /verdeckte-videoueberwachung/ /leistungen/
+Redirect 301 /verdeckte-videoueberwachung-am-arbeitsplatz/ /leistungen/videoueberwachung/
+Redirect 301 /heimliche-mitarbeiterueberwachung-am-arbeitsplatz/ /leistungen/videoueberwachung/
+Redirect 301 /kameraueberwachung-am-arbeitsplatz/ /leistungen/videoueberwachung/
+Redirect 301 /technik-auf-mietbasis-verleih/ /leistungen/
+Redirect 301 /videoueberwachung-leasing-kaufen-mieten-leihen/ /leistungen/
+Redirect 301 /videoueberwachung-mieten-leihen/ /leistungen/
+Redirect 301 /sicherheitstechnik-auf-mietbasis/ /leistungen/
+Redirect 301 /nuetzliche-links/ /leistungen/
+Redirect 301 /dienstleitungen-und-service/ /leistungen/
+Redirect 301 /vermietung-verleih-von-videoueberwachungstechnik/ /leistungen/
+
+# --- Redirects: Hauptseiten mit echtem Ziel --------------------------------
+Redirect 301 /videoueberwachung/ /leistungen/videoueberwachung/
+Redirect 301 /alarmtechnik-alarmanalgen/ /leistungen/einbruchmeldeanlagen/
+Redirect 301 /kooperationspartner/ /partner/
+Redirect 301 /axis/ /partner/
+Redirect 301 /kontaktformular/ /kontakt/
+Redirect 301 /kontaktieren-sie-uns/ /kontakt/
+Redirect 301 /bildrechte/ /impressum/#bildnachweise
+Redirect 301 /secura/ /
+Redirect 301 /sicura-sicherheitstechnik/ /ueber-uns/
+Redirect 301 /bewerten-sie-uns/ /referenzen/
+Redirect 301 /kamerainstallation-kameraeinbau/ /leistungen/videoueberwachung/
+Redirect 301 /einbruch-schutz-fuer-privat-und-gewerbe/ /leistungen/einbruchmeldeanlagen/
+Redirect 301 /alarmanlage-lupus-xt3-bei-sicura-sicherheitstechnik/ /leistungen/einbruchmeldeanlagen/
+
+# --- Redirects: Keyword-/Boilerplate-Beiträge (rund 40 Alt-URLs) ----------
+Redirect 301 /videoueberwachung-installation/ /leistungen/videoueberwachung/
+Redirect 301 /videoueberwachung-installation-frankfurt/ /leistungen/videoueberwachung/
+Redirect 301 /kameraueberwachung-einbau/ /leistungen/videoueberwachung/
+Redirect 301 /kameraueberwachung-einbau-2/ /leistungen/videoueberwachung/
+Redirect 301 /videoueberwachung-kameraueberwachung/ /leistungen/videoueberwachung/
+Redirect 301 /videoueberwachung-kameraueberwachung-2/ /leistungen/videoueberwachung/
+Redirect 301 /videoueberwachung-2/ /leistungen/videoueberwachung/
+Redirect 301 /hd-videoueberwachung/ /leistungen/videoueberwachung/
+Redirect 301 /profi-videoueberwachung/ /leistungen/videoueberwachung/
+Redirect 301 /high-end-videoueberwachung-vom-fachhandel/ /leistungen/videoueberwachung/
+Redirect 301 /preiswerte-videoueberwachungstechnik/ /leistungen/videoueberwachung/
+Redirect 301 /videoueberwachung-fuer-jedermann/ /leistungen/videoueberwachung/
+Redirect 301 /modernste-ueberwachungstechnik-fuer-alle/ /leistungen/videoueberwachung/
+Redirect 301 /bester-service-videoueberwachung/ /leistungen/videoueberwachung/
+Redirect 301 /videoueberwachung-mit-handy-app/ /leistungen/videoueberwachung/
+Redirect 301 /ip-kamera-hd-sdi-kamera-vom-fachmann/ /leistungen/videoueberwachung/
+Redirect 301 /hd-sdi-ueberwachungskamera-ip-kamera/ /leistungen/videoueberwachung/
+Redirect 301 /wlan-mini-ueberwachungskamera-full-hd/ /leistungen/videoueberwachung/
+Redirect 301 /4k-ultra-hd-ueberwachungstechnik-zum-bezahlbaren-preis/ /leistungen/videoueberwachung/
+Redirect 301 /hikvision-5mp-tvi-kamera/ /leistungen/videoueberwachung/
+Redirect 301 /axis-mobotix-geutebrueck-abus-technik-vom-fachmann/ /leistungen/videoueberwachung/
+Redirect 301 /ueberwachungs-technik-kamera-kaufen-mieten-leihen/ /leistungen/videoueberwachung/
+Redirect 301 /kameraueberwachung-kaufen/ /leistungen/videoueberwachung/
+Redirect 301 /videoueberwachung-in-frankfurt/ /leistungen/videoueberwachung/
+Redirect 301 /videoueberwachung-videoueberwachung-in-mainz/ /leistungen/videoueberwachung/
+Redirect 301 /videoueberwachung-alarmtechnik-in-wiesbaden/ /leistungen/einbruchmeldeanlagen/
+Redirect 301 /eigenheim-schuetzen-durch-videoueberwachung-alarmanlage/ /leistungen/
+Redirect 301 /eigenheim-schuetzen-durch-kameraueberwachung-und-alarmanlage/ /leistungen/
+Redirect 301 /videoueberwachung-fuer-mehr-schutz-und-besseren-ueberblick/ /leistungen/videoueberwachung/
+Redirect 301 /mitarbeiterueberwachung-verdeckte-kameraueberwachung/ /leistungen/videoueberwachung/
+Redirect 301 /technik-von-profis-fuer-profis/ /leistungen/
+Redirect 301 /installation-von-videoueberwachung-kameraueberwachung/ /leistungen/videoueberwachung/
+Redirect 301 /videoueberwachung-einbau-in-frankurt-und-umgebung/ /leistungen/videoueberwachung/
+Redirect 301 /vedeckte-videoueberwachung/ /leistungen/
+Redirect 301 /schutz-und-sicherheitstechnik/ /leistungen/
+Redirect 301 /sicherheitstechnik-fuer-privat-und-gewerbe/ /leistungen/
+Redirect 301 /neuer-accu-seek-rekorder-von-hivision/ /leistungen/videoueberwachung/

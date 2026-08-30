@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../lib/site';
+
+const title = 'Seite nicht gefunden | Sicura Sicherheitstechnik';
+const description = 'Diese Seite gibt es nicht mehr. Zur Startseite, den Leistungen oder zum Kontakt.';
+---
+
+<BaseLayout title={title} description={description} robotsNoindex>
+  <section class="section">
+    <div class="container-content">
+      <h1>Diese Seite gibt es nicht mehr</h1>
+      <p>Wir haben unsere Website neu aufgebaut und dabei einiges zusammengefasst. Vielleicht finden Sie hier, was Sie gesucht haben:</p>
+      <ul class="link-list">
+        <li><a href="/">Startseite</a></li>
+        <li><a href="/leistungen/">Leistungen</a></li>
+        <li><a href="/kontakt/">Kontakt</a></li>
+      </ul>
+      <p>Oder rufen Sie uns an: <a href={site.phoneHref}>{site.phoneDisplay}</a>.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .section { padding-block: var(--s-10); text-align: center; }
+  .section h1 { font-size: var(--t-h1); margin-bottom: var(--s-4); }
+  .section p { color: var(--c-ink-600); max-width: var(--w-text); margin-inline: auto; margin-bottom: var(--s-5); }
+  .link-list { list-style: none; display: flex; justify-content: center; gap: var(--s-5); margin-bottom: var(--s-6); flex-wrap: wrap; }
+  .link-list a, .section p a { color: var(--c-primary-700); font-weight: 500; }
+</style>

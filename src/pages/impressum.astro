@@ -1,0 +1,57 @@
+---
+import ProseLayout from '../layouts/ProseLayout.astro';
+import { site } from '../lib/site';
+
+const title = 'Impressum | Sicura Sicherheitstechnik';
+const description = 'Impressumsangaben nach § 5 DDG für Sicura Sicherheitstechnik, Angela Foggia, Dalheim.';
+---
+
+<ProseLayout title={title} description={description} eyebrow="Rechtliches" heading="Impressum">
+  <div class="draft-notice">
+    <strong>Entwurf — noch nicht rechtlich geprüft.</strong>
+    Dieser Text enthält ausschließlich bestätigte Stammdaten (Notion „17 – Kundenbriefing kompakt“) und darf erst nach Prüfung durch eine Person mit Rechtskenntnis (Anwalt, IHK oder eRecht24) live gehen. Siehe Notion „08 – Recht &amp; Compliance“, Go-Live-Sperre.
+  </div>
+
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <p>
+    {site.name}<br />
+    Inhaberin: {site.owner}<br />
+    {site.legalForm} (kein Handelsregistereintrag)<br />
+    {site.street}<br />
+    {site.postalCode} {site.city}
+  </p>
+
+  <h2>Kontakt</h2>
+  <p>
+    Telefon: <a href={site.phoneHref}>{site.phoneDisplay}</a><br />
+    E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
+  </p>
+
+  <h2>Umsatzsteuer-Identifikationsnummer</h2>
+  <p>Gemäß § 27 a Umsatzsteuergesetz: {site.vatId}</p>
+
+  <h2>Verantwortlich nach § 18 Absatz 2 MStV</h2>
+  <p>{site.owner}, Anschrift wie oben.</p>
+
+  <h2>Verbraucherstreitbeilegung</h2>
+  <!-- TODO(Notion 08 A): Erklärung zur Teilnahme an einer Streitschlichtungsstelle (§ 36 VSBG) ist eine Geschäftsentscheidung der Kundin und noch offen. Vor Go-Live durch Anwalt/eRecht24 klären und ergänzen. -->
+  <p class="pending">Angabe zur Verbraucherstreitbeilegung steht noch aus.</p>
+
+  <h2 id="bildnachweise">Bildnachweise</h2>
+  <!-- TODO(Notion 18 §8, Notion 08 E): Bildliste aus src/content/bilder.md einspielen, sobald Bildmaterial mit dokumentierter Lizenz vorliegt. -->
+  <p class="pending">Für diese Website sind aktuell keine lizenzpflichtigen Fotografien im Einsatz. Sobald Bildmaterial hinzukommt, werden Quelle und Lizenz an dieser Stelle vollständig ausgewiesen.</p>
+</ProseLayout>
+
+<style>
+  .draft-notice {
+    background: var(--c-accent-50);
+    border: 1px solid var(--c-accent-500);
+    border-radius: var(--radius);
+    padding: var(--s-5);
+    margin-bottom: var(--s-7);
+    color: var(--c-ink-900);
+    font-size: var(--t-small);
+  }
+  .draft-notice strong { display: block; margin-bottom: var(--s-2); }
+  :global(.pending) { color: var(--c-ink-400); font-style: italic; }
+</style>

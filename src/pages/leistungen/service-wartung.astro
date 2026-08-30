@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import { site } from '../../lib/site';
+
+const title = 'Service und Wartung Ihrer Sicherheitsanlage | Sicura Sicherheitstechnik';
+const description = 'Wartung, Reparatur und Erweiterung für Anlagen, die wir installiert haben. Fester Ansprechpartner statt Hotline.';
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Leistungen', item: 'https://sicura-sicherheitstechnik.de/leistungen/' },
+    { '@type': 'ListItem', position: 2, name: 'Service und Wartung', item: 'https://sicura-sicherheitstechnik.de/leistungen/service-wartung/' },
+  ],
+};
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Service und Wartung von Sicherheitstechnik',
+  provider: { '@type': 'LocalBusiness', name: 'Sicura Sicherheitstechnik' },
+  areaServed: 'Rheinhessen und Rhein-Main-Gebiet',
+};
+---
+
+<BaseLayout title={title} description={description} jsonLd={[breadcrumbLd, serviceLd]}>
+  <Hero
+    eyebrow="Leistungen"
+    title="Nach der Installation geht es weiter"
+    lead="Technik altert, Objekte verändern sich, Anforderungen auch. Wir betreuen die Anlagen, die wir gebaut haben – damit sie in fünf Jahren noch das tut, wofür Sie sie angeschafft haben."
+  />
+
+  <section class="section prose-content">
+    <div class="container-content prose-content">
+      <h2>Was zur Wartung gehört</h2>
+      <p>Funktionsprüfung aller Melder und Kameras, Sichtprüfung der Verkabelung und Befestigungen, Reinigung der Objektive, Kontrolle von Akkus und Notstrom, Software- und Firmwarestand, Prüfung der Aufzeichnung und der eingestellten Speicherdauer.</p>
+
+      <h2>Wie oft</h2>
+      <p>Das hängt von der Anlage und vom Objekt ab. Bei Gewerbeobjekten ist ein jährlicher Termin üblich, im privaten Bereich oft größere Abstände. Wir schlagen Ihnen einen Rhythmus vor, der zu Ihrer Anlage passt.</p>
+
+      <h2>Wenn etwas nicht funktioniert</h2>
+      <p>Sie rufen an und erreichen jemanden, der Ihre Anlage kennt. Wir klären am Telefon, ob es sich um eine Einstellungssache handelt oder ob wir vorbeikommen müssen.</p>
+
+      <h2>Erweitern statt ersetzen</h2>
+      <p>Eine zusätzliche Kamera am neuen Nebengebäude, ein weiterer Melder nach dem Umbau: Anlagen, die wir geplant haben, sind darauf ausgelegt, mitzuwachsen.</p>
+
+      <h2>Ein Hinweis in eigener Sache</h2>
+      <p>Wir warten ausschließlich Anlagen, die wir selbst installiert haben. Bei fremden Anlagen kennen wir weder Planung noch Verkabelung noch den Zustand der Komponenten – und könnten für die Funktion nicht geradestehen. Wenn Sie eine bestehende Anlage haben, mit der Sie unzufrieden sind, sprechen Sie uns trotzdem an: Manchmal ist ein Neuaufbau die ehrlichere Lösung.</p>
+    </div>
+  </section>
+
+  <section class="cta-band-custom">
+    <div class="container-content cta-inner">
+      <h2>Anlage besprechen</h2>
+      <a class="btn btn-primary" href={site.phoneHref}>{site.phoneDisplay}</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .section { padding-block: var(--s-9); }
+  .section h2 { margin-bottom: var(--s-3); }
+  .section h2:not(:first-child) { margin-top: var(--s-7); }
+  .section p { color: var(--c-ink-600); max-width: var(--w-text); }
+
+  .cta-band-custom { background: var(--c-paper-50); padding-block: var(--s-8); }
+  .cta-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-5); }
+</style>

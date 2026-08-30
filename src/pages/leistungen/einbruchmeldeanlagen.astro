@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import StepList from '../../components/StepList.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const title = 'Einbruchmeldeanlagen und Alarmtechnik | Sicura Sicherheitstechnik';
+const description = 'Alarmanlagen für Haus und Gewerbe in Rheinhessen und Rhein-Main. Funk oder verkabelt, nachrüstbar, Meldung direkt auf Ihr Telefon.';
+
+const steps = [
+  { number: '01', title: 'Beratung', description: 'Kostenlos und unverbindlich, telefonisch oder vor Ort.' },
+  { number: '02', title: 'Planung', description: 'Wir gehen das Objekt ab und legen Positionen und Technik fest.' },
+  { number: '03', title: 'Installation', description: 'Saubere Montage, Verkabelung, Inbetriebnahme.' },
+  { number: '04', title: 'Einweisung und Wartung', description: 'Sie bekommen die Anlage erklärt und uns als Ansprechpartner.' },
+];
+
+const faqItems = [
+  { question: 'Stört die Montage im bewohnten Haus?', answer: 'Bei Funktechnik kaum – meist ein Tag ohne Schmutz.' },
+  { question: 'Was passiert bei Stromausfall?', answer: 'Die Anlagen haben eine Notstromversorgung.' },
+  { question: 'Kann ich später erweitern?', answer: 'Ja, das planen wir von Anfang an mit ein.' },
+];
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Leistungen', item: 'https://sicura-sicherheitstechnik.de/leistungen/' },
+    { '@type': 'ListItem', position: 2, name: 'Einbruchmeldeanlagen', item: 'https://sicura-sicherheitstechnik.de/leistungen/einbruchmeldeanlagen/' },
+  ],
+};
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Einbruchmeldeanlagen',
+  provider: { '@type': 'LocalBusiness', name: 'Sicura Sicherheitstechnik' },
+  areaServed: 'Rheinhessen und Rhein-Main-Gebiet',
+};
+---
+
+<BaseLayout title={title} description={description} jsonLd={[breadcrumbLd, serviceLd]}>
+  <Hero
+    eyebrow="Leistungen"
+    title="Einbruchmeldeanlagen, die im richtigen Moment melden"
+    lead="Eine Alarmanlage hat eine Aufgabe: früh genug Bescheid geben. Wir planen sie so, dass sie auslöst, wenn es darauf ankommt – und nicht, wenn der Wind gegen die Terrassentür drückt."
+  />
+
+  <section class="section prose-content">
+    <div class="container-content prose-content">
+      <h2>Wofür</h2>
+      <p>Türen, Fenster, Außenhaut, Innenräume. Im Wohnbereich geht es meist um die Erdgeschossebene und die Zugänge, im Gewerbe zusätzlich um Lager, Nebeneingänge und Zeiträume ohne Personal.</p>
+
+      <h2>Funk oder verkabelt</h2>
+      <p>Im Bestand ist Funktechnik oft die bessere Wahl: keine Stemmarbeiten, schnelle Montage, später erweiterbar. Bei Neubau oder Sanierung lohnt sich die Verkabelung. Wir sagen Ihnen, was in Ihrem Fall sinnvoll ist – auch wenn es die kleinere Lösung ist.</p>
+
+      <h2>Wohin die Meldung geht</h2>
+      <p>Die Anlage meldet an Sie: als Push-Nachricht, als Anruf, als Signal vor Ort. Sie entscheiden, wer wann informiert wird.</p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container-content">
+      <h2>So läuft es ab</h2>
+      <StepList steps={steps} />
+    </div>
+  </section>
+
+  <section class="section prose-content">
+    <div class="container-content prose-content">
+      <h2>Technik</h2>
+      <p>
+        Wir planen und installieren Systeme von Ajax, Jablotron und Lupus. In vielen Fällen ist die Kombination aus Alarmtechnik und Außenkameras sinnvoll: Der Melder sagt, dass etwas passiert, die Kamera zeigt was.
+        <a href="/leistungen/videoueberwachung/">Zur Videoüberwachung</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-content prose-content">
+      <h2>Häufige Fragen</h2>
+      <Faq items={faqItems} />
+    </div>
+  </section>
+
+  <CtaBand title="Kostenlose Schwachstellenanalyse anfragen" />
+</BaseLayout>
+
+<style>
+  .section { padding-block: var(--s-9); }
+  .section h2 { margin-bottom: var(--s-4); }
+  .section h2:not(:first-child) { margin-top: var(--s-7); }
+  .section p { color: var(--c-ink-600); max-width: var(--w-text); }
+  .section p a { color: var(--c-primary-700); text-decoration: underline; text-underline-offset: 3px; }
+</style>

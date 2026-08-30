@@ -1,0 +1,32 @@
+---
+import { site } from '../lib/site';
+---
+
+<div class="logo-strip" data-reveal>
+  <ul class="logo-list">
+    {site.manufacturers.map((name) => (
+      <li>{name}</li>
+    ))}
+  </ul>
+  <p class="logo-caption">Wir planen und installieren Systeme dieser Hersteller.</p>
+</div>
+
+<style>
+  .logo-strip { text-align: center; }
+  .logo-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-6);
+    margin-bottom: var(--s-4);
+  }
+  .logo-list li {
+    font-size: var(--t-h3);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--c-ink-400);
+    filter: grayscale(1);
+  }
+  .logo-caption { color: var(--c-ink-400); font-size: var(--t-small); }
+</style>

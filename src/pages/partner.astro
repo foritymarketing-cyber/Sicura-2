@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import { site } from '../lib/site';
+
+const title = 'Partner und Hersteller | Sicura Sicherheitstechnik';
+const description = 'Mit welchen Herstellern wir arbeiten und mit welchen Betrieben aus der Region wir kooperieren.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Hero eyebrow="Partner" title="Mit wem wir arbeiten" />
+
+  <section class="section prose-content">
+    <div class="container-content prose-content">
+      <h2>Technikpartner</h2>
+      <p>
+        Wir planen und installieren Systeme dieser Hersteller: {site.manufacturers.join(', ')}.
+        Welches System zum Einsatz kommt, entscheidet Ihr Objekt – wir sind an keine Marke gebunden.
+      </p>
+
+      <h2>Partner in der Region</h2>
+      <ul>
+        {site.localPartners.map((partner) => (
+          <li><strong>{partner.name}</strong>{partner.detail ? ` — ${partner.detail}` : ''}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .section { padding-block: var(--s-9); }
+  .section h2 { margin-bottom: var(--s-3); }
+  .section h2:not(:first-child) { margin-top: var(--s-7); }
+  .section p, .section li { color: var(--c-ink-600); }
+  .section ul { padding-left: var(--s-5); }
+  .section strong { color: var(--c-ink-900); }
+</style>

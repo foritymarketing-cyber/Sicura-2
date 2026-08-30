@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../lib/site';
+
+const title = 'Kontakt – Sicura Sicherheitstechnik, Dalheim';
+const description = 'Rufen Sie an unter 06249 937 9999 oder schreiben Sie uns. Beratung kostenlos, tätig in Rheinhessen und im Rhein-Main-Gebiet.';
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${site.street}, ${site.postalCode} ${site.city}`)}`;
+---
+
+<BaseLayout title={title} description={description}>
+  <Hero
+    eyebrow="Kontakt"
+    title="Sprechen wir über Ihr Objekt"
+    lead="Am schnellsten geht es telefonisch – die meisten Fragen sind in fünf Minuten geklärt. Wenn Sie lieber schreiben, nutzen Sie das Formular."
+  />
+
+  <section class="section">
+    <div class="container-content contact-grid">
+      <div class="contact-info">
+        <dl>
+          <div>
+            <dt>Telefon</dt>
+            <dd><a href={site.phoneHref}>{site.phoneDisplay}</a></dd>
+          </div>
+          <div>
+            <dt>E-Mail</dt>
+            <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+          </div>
+          <div>
+            <dt>Anschrift</dt>
+            <dd>{site.name}<br />{site.street}<br />{site.postalCode} {site.city}</dd>
+          </div>
+          <div>
+            <dt>Erreichbarkeit</dt>
+            <!-- TODO(Notion 17/F1, Platzhalter ⟨zeiten⟩ in Notion 19): Freigabe der Kundin steht aus, nicht durch einen Agenten ausfüllen. -->
+            <dd class="pending">Freigabe der Kundin steht noch aus.</dd>
+          </div>
+          <div>
+            <dt>Rückmeldung</dt>
+            <!-- TODO(Notion 16 D, Platzhalter ⟨rueckmeldung⟩ in Notion 19): Freigabe der Kundin steht aus, nicht durch einen Agenten ausfüllen. -->
+            <dd class="pending">Freigabe der Kundin steht noch aus.</dd>
+          </div>
+          <div>
+            <dt>Einsatzgebiet</dt>
+            <dd>{site.serviceArea}</dd>
+          </div>
+        </dl>
+
+        <div class="anfahrt">
+          <h2>Anfahrt</h2>
+          <a class="maps-link" href={mapsUrl} rel="noopener" target="_blank">
+            In Google Maps öffnen
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form-col">
+        <h2>Anfrage schreiben</h2>
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .section { padding-block: var(--s-9); }
+  .contact-grid { display: grid; gap: var(--s-8); }
+  @media (min-width: 1024px) {
+    .contact-grid { grid-template-columns: 1fr 1.3fr; }
+  }
+  .contact-info dl { display: flex; flex-direction: column; gap: var(--s-5); }
+  .contact-info dt { font-size: var(--t-small); font-weight: 500; color: var(--c-ink-400); margin-bottom: var(--s-1); }
+  .contact-info dd { color: var(--c-ink-900); }
+  .contact-info a { color: var(--c-primary-700); }
+  .contact-info dd.pending { color: var(--c-ink-400); font-style: italic; }
+
+  .anfahrt { margin-top: var(--s-7); padding-top: var(--s-6); border-top: var(--border); }
+  .anfahrt h2 { margin-bottom: var(--s-3); font-size: var(--t-h3); }
+  .maps-link { display: inline-flex; align-items: center; gap: var(--s-2); color: var(--c-primary-700); font-weight: 500; }
+
+  .contact-form-col h2 { margin-bottom: var(--s-5); }
+</style>

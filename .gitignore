@@ -3,3 +3,23 @@
 
 # Editor / Tooling
 .claude/
+.vscode/
+.idea/
+
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# php local config outside web root (never in repo)
+mail-config.php
+

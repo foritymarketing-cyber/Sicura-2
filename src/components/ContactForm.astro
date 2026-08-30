@@ -1,0 +1,148 @@
+---
+import { site } from '../lib/site';
+---
+
+<div class="contact-form-wrap">
+  <div class="form-banner" id="form-banner" hidden role="alert"></div>
+
+  <form class="contact-form" id="contact-form" action="/api/kontakt.php" method="post" novalidate>
+    <div class="field">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required minlength="2" maxlength="120" autocomplete="name" aria-describedby="err-name" />
+      <p class="field-error" id="err-name" hidden>Bitte tragen Sie Ihren Namen ein.</p>
+    </div>
+
+    <div class="field">
+      <label for="email">E-Mail</label>
+      <input type="email" id="email" name="email" required maxlength="180" autocomplete="email" aria-describedby="err-email" />
+      <p class="field-error" id="err-email" hidden>Bitte prüfen Sie Ihre E-Mail-Adresse.</p>
+    </div>
+
+    <div class="field">
+      <label for="phone">Telefon <span class="optional">(optional)</span></label>
+      <input type="tel" id="phone" name="phone" maxlength="40" autocomplete="tel" />
+    </div>
+
+    <div class="field">
+      <label for="message">Ihre Nachricht</label>
+      <textarea id="message" name="message" required minlength="10" maxlength="4000" rows="5" aria-describedby="err-message"></textarea>
+      <p class="field-error" id="err-message" hidden>Bitte schreiben Sie uns kurz, worum es geht.</p>
+    </div>
+
+    <div class="field field-consent">
+      <label class="checkbox-label">
+        <input type="checkbox" id="consent" name="consent" required aria-describedby="err-consent" />
+        <span>Ich bin damit einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage verwendet werden. Hinweise dazu in der <a href="/datenschutz/">Datenschutzerklärung</a>.</span>
+      </label>
+      <p class="field-error" id="err-consent" hidden>Bitte bestätigen Sie die Einwilligung.</p>
+    </div>
+
+    <!-- Honeypot: für Menschen unsichtbar per CSS, für Bots erreichbar -->
+    <div class="hp-field" aria-hidden="true">
+      <label for="website">Website</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+    <input type="hidden" name="ts" id="ts" value="" />
+    <input type="hidden" name="csrf" id="csrf" value="" />
+
+    <button type="submit" class="btn btn-primary">Anfrage senden</button>
+    <p class="form-note">Wir geben Ihre Daten nicht weiter und verwenden sie ausschließlich, um Ihre Anfrage zu beantworten.</p>
+  </form>
+</div>
+
+<script define:vars={{ phone: site.phoneDisplay }}>
+  const form = document.getElementById('contact-form');
+  const banner = document.getElementById('form-banner');
+  const tsField = document.getElementById('ts');
+  const csrfField = document.getElementById('csrf');
+
+  if (tsField) tsField.value = String(Date.now());
+
+  fetch('/api/kontakt.php?csrf=1')
+    .then((r) => (r.ok ? r.json() : null))
+    .then((data) => {
+      if (data && data.token && csrfField) csrfField.value = data.token;
+    })
+    .catch(() => {});
+
+  const errorMessages = {
+    validation: 'Bitte prüfen Sie Ihre Angaben und versuchen Sie es erneut.',
+    ratelimit: 'Sie haben in kurzer Zeit mehrere Anfragen gesendet. Bitte versuchen Sie es später erneut oder rufen Sie uns an: ' + phone + '.',
+    server: 'Das hat gerade nicht geklappt. Bitte versuchen Sie es noch einmal oder rufen Sie uns an: ' + phone + '.',
+  };
+
+  const params = new URLSearchParams(window.location.search);
+  const errorCode = params.get('error');
+  if (errorCode && banner) {
+    banner.textContent = errorMessages[errorCode] || errorMessages.server;
+    banner.hidden = false;
+  }
+
+  const fields = [
+    { input: 'name', error: 'err-name', check: (el) => el.value.trim().length >= 2 },
+    { input: 'email', error: 'err-email', check: (el) => el.validity.valid && el.value.includes('@') },
+    { input: 'message', error: 'err-message', check: (el) => el.value.trim().length >= 10 },
+    { input: 'consent', error: 'err-consent', check: (el) => el.checked },
+  ];
+
+  form?.addEventListener('submit', (e) => {
+    let valid = true;
+    for (const f of fields) {
+      const input = document.getElementById(f.input);
+      const errorEl = document.getElementById(f.error);
+      if (!input || !errorEl) continue;
+      const ok = f.check(input);
+      errorEl.hidden = ok;
+      if (!ok) valid = false;
+    }
+    if (!valid) e.preventDefault();
+  });
+</script>
+
+<style>
+  .contact-form { display: flex; flex-direction: column; gap: var(--s-5); max-width: var(--w-text); }
+  .field { display: flex; flex-direction: column; gap: var(--s-2); }
+  .field label { font-weight: 500; color: var(--c-ink-900); }
+  .optional { font-weight: 400; color: var(--c-ink-400); }
+  .field input[type="text"],
+  .field input[type="email"],
+  .field input[type="tel"],
+  .field textarea {
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--c-paper-0);
+    padding: var(--s-3) var(--s-4);
+    font: inherit;
+    color: var(--c-ink-900);
+  }
+  .field input:focus-visible,
+  .field textarea:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 2px;
+  }
+  .field-error { color: var(--c-accent-600); font-size: var(--t-small); }
+
+  .checkbox-label { display: flex; align-items: flex-start; gap: var(--s-3); font-weight: 400; }
+  .checkbox-label input { margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0; }
+  .checkbox-label a { text-decoration: underline; text-underline-offset: 3px; }
+
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form-note { font-size: var(--t-small); color: var(--c-ink-400); }
+
+  .form-banner {
+    background: var(--c-accent-50);
+    border: 1px solid var(--c-accent-500);
+    color: var(--c-ink-900);
+    padding: var(--s-4);
+    border-radius: var(--radius);
+    margin-bottom: var(--s-5);
+    max-width: var(--w-text);
+  }
+</style>

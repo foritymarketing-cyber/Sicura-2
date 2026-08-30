@@ -1,0 +1,97 @@
+---
+interface Props {
+  variant: 'left' | 'right' | 'wide';
+  index: string;
+  title: string;
+  description: string;
+  href: string;
+  ctaLabel: string;
+  art?: 'camera' | 'alarm' | 'wrench';
+}
+
+const { variant, index, title, description, href, ctaLabel, art = 'camera' } = Astro.props;
+---
+
+<div class:list={['service-block', `service-block--${variant}`]} data-reveal>
+  {variant !== 'wide' && (
+    <div class="service-art" aria-hidden="true">
+      <svg viewBox="0 0 200 200" fill="none">
+        <rect width="200" height="200" fill="var(--c-primary-50)" />
+        {art === 'camera' && (
+          <g>
+            <rect x="55" y="80" width="75" height="42" rx="1" fill="var(--c-paper-0)" stroke="var(--c-ink-900)" stroke-width="1.5" />
+            <circle cx="80" cy="101" r="11" fill="none" stroke="var(--c-ink-900)" stroke-width="1.5" />
+            <circle cx="80" cy="101" r="4" fill="var(--c-accent-600)" />
+            <path d="M55 101 L30 90" stroke="var(--c-ink-900)" stroke-width="1.5" />
+            <path d="M130 88 L150 40 M130 114 L152 158" stroke="var(--c-ink-900)" stroke-width="1" stroke-dasharray="2 6" opacity="0.6" />
+          </g>
+        )}
+        {art === 'alarm' && (
+          <g>
+            <rect x="75" y="55" width="50" height="70" rx="1" fill="var(--c-paper-0)" stroke="var(--c-ink-900)" stroke-width="1.5" />
+            <circle cx="100" cy="80" r="9" fill="none" stroke="var(--c-ink-900)" stroke-width="1.5" />
+            <path d="M100 80 L100 71 M100 80 L106 84" stroke="var(--c-ink-900)" stroke-width="1.5" stroke-linecap="round" />
+            <path d="M88 108 h24" stroke="var(--c-ink-900)" stroke-width="1.5" stroke-linecap="round" />
+            <path d="M65 55 Q100 25 135 55" fill="none" stroke="var(--c-accent-600)" stroke-width="1.5" />
+          </g>
+        )}
+        {art === 'wrench' && (
+          <g>
+            <path d="M120 60 a20 20 0 1 0-14 33 L70 129 a8 8 0 0 0 11 11 l36-36 a20 20 0 0 0 3-37Z" fill="var(--c-paper-0)" stroke="var(--c-ink-900)" stroke-width="1.5" stroke-linejoin="round" />
+            <circle cx="112" cy="72" r="6" fill="none" stroke="var(--c-ink-900)" stroke-width="1.2" />
+          </g>
+        )}
+      </svg>
+    </div>
+  )}
+
+  <div class="service-content">
+    <p class="eyebrow">{index}</p>
+    <h3>{title}</h3>
+    <p class="service-desc">{description}</p>
+    <a class="service-link" href={href}>
+      {ctaLabel}
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </a>
+  </div>
+</div>
+
+<style>
+  .service-block {
+    display: grid;
+    gap: var(--s-6);
+    align-items: center;
+    padding-block: var(--s-6);
+  }
+  .service-block--left,
+  .service-block--right {
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 768px) {
+    .service-block--left,
+    .service-block--right {
+      grid-template-columns: 1fr 1fr;
+    }
+    .service-block--right .service-art { order: 2; }
+  }
+  .service-block--wide {
+    border-top: var(--border);
+    padding-top: var(--s-7);
+  }
+
+  .service-art svg { border-radius: var(--radius); width: 100%; height: auto; }
+
+  .service-content h3 { margin-top: var(--s-2); }
+  .service-desc { margin-top: var(--s-3); color: var(--c-ink-600); max-width: var(--w-text); }
+  .service-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+    margin-top: var(--s-4);
+    color: var(--c-primary-700);
+    font-weight: 500;
+  }
+  .service-link:hover { color: var(--c-primary-600); }
+  .service-link svg { transition: transform var(--m-fast) var(--m-ease); }
+  .service-link:hover svg { transform: translateX(3px); }
+</style>

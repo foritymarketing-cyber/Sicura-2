@@ -1,0 +1,43 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  heading: string;
+  robotsNoindex?: boolean;
+}
+const { title, description, eyebrow, heading, robotsNoindex } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} robotsNoindex={robotsNoindex}>
+  <section class="prose-hero">
+    <div class="container-content">
+      <p class="eyebrow">{eyebrow}</p>
+      <h1>{heading}</h1>
+    </div>
+  </section>
+  <section class="prose-body">
+    <div class="container-content prose-content">
+      <slot />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose-hero { padding-block: var(--s-7) var(--s-5); background: var(--c-paper-50); }
+  .prose-hero h1 { margin-top: var(--s-2); font-size: var(--t-h2); }
+  .prose-body { padding-block: var(--s-7); }
+  .prose-content :global(h2) {
+    font-size: var(--t-h3);
+    margin-top: var(--s-7);
+    margin-bottom: var(--s-3);
+  }
+  .prose-content :global(h2:first-child) { margin-top: 0; }
+  .prose-content :global(p) { margin-bottom: var(--s-4); color: var(--c-ink-600); }
+  .prose-content :global(ul) { margin-bottom: var(--s-4); padding-left: var(--s-5); color: var(--c-ink-600); }
+  .prose-content :global(li) { margin-bottom: var(--s-2); }
+  .prose-content :global(a) { color: var(--c-primary-700); text-decoration: underline; text-underline-offset: 3px; }
+  .prose-content :global(strong) { color: var(--c-ink-900); }
+</style>

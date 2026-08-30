@@ -1,0 +1,119 @@
+---
+interface Props {
+  variant?: 'home' | 'sub';
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  ctaPrimary?: { label: string; href: string };
+  ctaSecondary?: { label: string; href: string };
+}
+
+const { variant = 'sub', eyebrow, title, lead, ctaPrimary, ctaSecondary } = Astro.props;
+---
+
+{variant === 'home' ? (
+  <section class="hero hero-home">
+    <div class="container-content hero-grid">
+      <div class="hero-text">
+        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+        <h1 set:html={title} />
+        {lead && <p class="lead">{lead}</p>}
+        {(ctaPrimary || ctaSecondary) && (
+          <div class="hero-actions">
+            {ctaPrimary && <a class="btn btn-primary" href={ctaPrimary.href}>{ctaPrimary.label}</a>}
+            {ctaSecondary && <a class="btn btn-secondary" href={ctaSecondary.href}>{ctaSecondary.label}</a>}
+          </div>
+        )}
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 480 480" fill="none">
+          <rect x="0" y="0" width="480" height="480" fill="var(--c-primary-50)" />
+          <rect x="60" y="220" width="200" height="200" fill="var(--c-paper-0)" stroke="var(--c-ink-900)" stroke-width="1.5" />
+          <rect x="100" y="260" width="40" height="60" fill="var(--c-primary-100)" stroke="var(--c-ink-900)" stroke-width="1.5" />
+          <rect x="170" y="260" width="40" height="40" fill="var(--c-primary-100)" stroke="var(--c-ink-900)" stroke-width="1.5" />
+          <path d="M60 220 L160 140 L260 220" fill="none" stroke="var(--c-ink-900)" stroke-width="1.5" stroke-linejoin="round" />
+          <g>
+            <rect x="300" y="90" width="70" height="42" rx="1" fill="var(--c-paper-0)" stroke="var(--c-ink-900)" stroke-width="1.5" />
+            <circle cx="322" cy="111" r="10" fill="none" stroke="var(--c-ink-900)" stroke-width="1.5" />
+            <circle cx="322" cy="111" r="4" fill="var(--c-accent-600)" />
+            <path d="M300 111 L270 100" stroke="var(--c-ink-900)" stroke-width="1.5" />
+            <path d="M332 100 L410 40 M332 122 L412 170" stroke="var(--c-ink-900)" stroke-width="1" stroke-dasharray="2 6" opacity="0.6" />
+          </g>
+          <path d="M0 420 H480" stroke="var(--c-line)" stroke-width="1.5" />
+        </svg>
+      </div>
+    </div>
+  </section>
+) : (
+  <section class="hero hero-sub">
+    <div class="container-content hero-sub-inner">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      {lead && <p class="lead">{lead}</p>}
+    </div>
+  </section>
+)}
+
+<style>
+  .hero { padding-block: var(--s-9); }
+
+  .hero-home { padding-top: var(--s-8); }
+  .hero-grid {
+    display: grid;
+    gap: var(--s-7);
+    align-items: center;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 1024px) {
+    .hero-grid { grid-template-columns: 7fr 5fr; gap: var(--s-8); }
+    .hero-home { padding-top: var(--s-9); }
+  }
+
+  .hero-text h1 {
+    font-size: var(--t-h1);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    margin-top: var(--s-3);
+  }
+  .hero-text .lead {
+    font-size: var(--t-lead);
+    color: var(--c-ink-600);
+    margin-top: var(--s-5);
+    max-width: 46ch;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-4);
+    margin-top: var(--s-6);
+  }
+
+  .hero-art {
+    order: -1;
+  }
+  @media (min-width: 1024px) {
+    .hero-art { order: initial; margin-right: calc(-1 * var(--s-6)); }
+  }
+  .hero-art svg { width: 100%; height: auto; border-radius: var(--radius); }
+
+  .hero-sub {
+    background: var(--c-ink-800);
+    color: var(--c-paper-50);
+    padding-block: var(--s-8);
+  }
+  .hero-sub-inner { max-width: var(--w-text); }
+  .hero-sub h1 {
+    color: #fff;
+    font-size: var(--t-h1);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-top: var(--s-3);
+  }
+  .hero-sub .lead {
+    font-size: var(--t-lead);
+    color: var(--c-paper-100);
+    margin-top: var(--s-5);
+  }
+  .hero-sub .eyebrow { color: var(--c-primary-100); }
+</style>

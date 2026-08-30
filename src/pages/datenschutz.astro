@@ -1,0 +1,80 @@
+---
+import ProseLayout from '../layouts/ProseLayout.astro';
+import { site } from '../lib/site';
+
+const title = 'Datenschutzerklärung | Sicura Sicherheitstechnik';
+const description = 'Wie Sicura Sicherheitstechnik personenbezogene Daten verarbeitet: Hosting, Kontaktformular, Logfiles und Ihre Rechte.';
+---
+
+<ProseLayout title={title} description={description} eyebrow="Rechtliches" heading="Datenschutzerklärung">
+  <div class="draft-notice">
+    <strong>Entwurf — noch nicht rechtlich geprüft.</strong>
+    Dieser Text beschreibt den technischen Stand der Website (Stand: Notion „18 – Designsystem“, „06 – Ziel-Architektur“, „07 – Sicherheits- &amp; Kostenkonzept“) und muss vor Go-Live durch eine Person mit Rechtskenntnis geprüft werden. Siehe Notion „08 – Recht &amp; Compliance“, Go-Live-Sperre.
+  </div>
+
+  <h2>Verantwortlicher</h2>
+  <p>
+    {site.name}, {site.owner}<br />
+    {site.street}, {site.postalCode} {site.city}<br />
+    Telefon: <a href={site.phoneHref}>{site.phoneDisplay}</a> · E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
+  </p>
+
+  <h2>Hosting</h2>
+  <!-- TODO(Notion 08 B, 17 F9): AVV mit Strato ist noch nicht abgeschlossen. Abschnitt nach Abschluss finalisieren. -->
+  <p class="pending">
+    Diese Website wird bei der Strato AG (Strato Hosting Starter) gehostet. Ein Auftragsverarbeitungsvertrag mit Strato ist in Vorbereitung und wird vor Veröffentlichung dieser Erklärung final beschrieben.
+  </p>
+
+  <h2>Server-Logfiles</h2>
+  <!-- TODO(Notion 08 B): tatsächliche Strato-Logfile-Konfiguration vor Go-Live prüfen und diesen Absatz daran anpassen. -->
+  <p class="pending">
+    Beim Aufruf dieser Website erhebt der Hosting-Provider technisch notwendige Zugriffsdaten (u. a. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite, verwendeter Browser). Diese Daten dienen ausschließlich der technischen Bereitstellung und Absicherung der Website. Details werden nach Prüfung der tatsächlichen Strato-Konfiguration ergänzt.
+  </p>
+
+  <h2>Kontaktformular</h2>
+  <p>
+    Wenn Sie uns über das Kontaktformular schreiben, verwenden wir Ihre Angaben (Name, E-Mail-Adresse, optional Telefonnummer, Ihre Nachricht) ausschließlich zur Bearbeitung Ihrer Anfrage und für den Fall von Anschlussfragen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Anfrage) beziehungsweise Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung). Die Anfrage wird per E-Mail an unser Postfach zugestellt; eine Speicherung in einer Datenbank findet nicht statt. Ihre Daten werden gelöscht, sobald sie für die Bearbeitung Ihrer Anfrage nicht mehr erforderlich sind.
+  </p>
+  <p>
+    Zum Schutz vor Missbrauch (Spam, automatisierte Massenanfragen) setzen wir technische Maßnahmen ein, die ohne Speicherung personenbezogener Daten über den Absendevorgang hinaus auskommen: ein für Menschen unsichtbares Formularfeld, eine Mindestausfüllzeit und eine Begrenzung der Anzahl Anfragen je Absender und Zeitraum.
+  </p>
+
+  <h2>Schriften</h2>
+  <p>
+    Diese Website nutzt die Schriftart Archivo. Die Schriftdateien liegen auf unserem eigenen Server und werden nicht von einem externen Anbieter (z. B. Google Fonts) nachgeladen. Es fließen dadurch keine Daten an Dritte ab.
+  </p>
+
+  <h2>Cookies und Tracking</h2>
+  <p>
+    Diese Website setzt keine Cookies, die nicht technisch zwingend erforderlich sind, und bindet keine Analyse-, Tracking- oder Werbedienste ein. Eine Einwilligung nach § 25 TDDDG ist deshalb nicht erforderlich.
+  </p>
+
+  <h2>Externe Karten</h2>
+  <p>
+    Auf der Kontaktseite verlinken wir auf Google Maps, ohne eine Karte einzubetten. Beim Klick auf diesen Link öffnet sich Google Maps in einem neuen Tab; erst dann verarbeitet Google Daten gemäß den eigenen Datenschutzhinweisen. Bis zu diesem Klick findet keine Datenübertragung an Google statt.
+  </p>
+
+  <h2>Ihre Rechte</h2>
+  <p>
+    Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit sowie Widerspruch gegen die Verarbeitung Ihrer personenbezogenen Daten. Wenden Sie sich dazu an die oben genannte Kontaktadresse.
+  </p>
+
+  <h2>Aufsichtsbehörde</h2>
+  <p>
+    Der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz (LfDI RLP), Hintere Bleiche 34, 55116 Mainz.
+  </p>
+</ProseLayout>
+
+<style>
+  .draft-notice {
+    background: var(--c-accent-50);
+    border: 1px solid var(--c-accent-500);
+    border-radius: var(--radius);
+    padding: var(--s-5);
+    margin-bottom: var(--s-7);
+    color: var(--c-ink-900);
+    font-size: var(--t-small);
+  }
+  .draft-notice strong { display: block; margin-bottom: var(--s-2); }
+  :global(.pending) { color: var(--c-ink-600); }
+</style>

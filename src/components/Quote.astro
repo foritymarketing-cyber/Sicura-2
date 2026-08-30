@@ -1,0 +1,36 @@
+---
+// Eingezogener Zitatblock bei 720px — Notion "18", Abschnitt 5:
+// "mindestens zwei Sektionen pro Seite brechen aus dem Raster aus".
+// Text ist immer wortgleich aus Notion 17/19 zu übernehmen, nie neu formuliert.
+interface Props {
+  text: string;
+  tone?: 'paper-0' | 'paper-50';
+}
+const { text, tone = 'paper-0' } = Astro.props;
+---
+
+<section class:list={['quote-block', `quote-block--${tone}`]} data-reveal>
+  <div class="container-content">
+    <blockquote>
+      <p>{text}</p>
+    </blockquote>
+  </div>
+</section>
+
+<style>
+  .quote-block { padding-block: var(--s-8); }
+  .quote-block--paper-50 { background: var(--c-paper-50); }
+  blockquote {
+    max-width: var(--w-text);
+    margin-inline: auto;
+    padding-left: var(--s-6);
+    border-left: 2px solid var(--c-primary-700);
+  }
+  blockquote p {
+    font-size: var(--t-h2);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--c-ink-900);
+  }
+</style>

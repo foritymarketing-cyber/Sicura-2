@@ -1,0 +1,89 @@
+---
+import { site, footerNav } from '../lib/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container-content footer-grid">
+    <div class="footer-brand">
+      <p class="brand-name">Sicura Sicherheitstechnik</p>
+      <p>{site.street}<br />{site.postalCode} {site.city}</p>
+      <p><a href={site.phoneHref}>{site.phoneDisplay}</a></p>
+      <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      <p><a href={site.facebook} rel="noopener">Facebook</a></p>
+    </div>
+
+    <nav aria-label="Leistungen">
+      <h2>Leistungen</h2>
+      <ul>
+        {footerNav.leistungen.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav aria-label="Unternehmen">
+      <h2>Unternehmen</h2>
+      <ul>
+        {footerNav.unternehmen.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav aria-label="Rechtliches">
+      <h2>Rechtliches</h2>
+      <ul>
+        {footerNav.rechtliches.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container-content footer-bottom">
+    <p>© {year} {site.name}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--c-ink-800);
+    color: var(--c-paper-50);
+    padding-block: var(--s-8);
+  }
+  .footer-grid {
+    display: grid;
+    gap: var(--s-7);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 768px) {
+    .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+  }
+  .footer-brand .brand-name {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: var(--s-3);
+  }
+  .footer-brand p { margin-bottom: var(--s-1); font-size: var(--t-small); color: var(--c-paper-100); }
+  .footer-brand a { text-decoration: underline; text-underline-offset: 3px; }
+
+  .site-footer h2 {
+    font-size: var(--t-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-paper-100);
+    margin-bottom: var(--s-4);
+  }
+  .site-footer ul { list-style: none; display: flex; flex-direction: column; gap: var(--s-2); }
+  .site-footer a { font-size: var(--t-small); color: var(--c-paper-50); }
+  .site-footer a:hover { color: #fff; }
+
+  .footer-bottom {
+    margin-top: var(--s-8);
+    padding-top: var(--s-5);
+    border-top: 1px solid rgba(255,255,255,.12);
+    font-size: var(--t-small);
+    color: var(--c-paper-100);
+  }
+</style>

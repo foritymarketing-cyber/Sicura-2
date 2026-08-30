@@ -1,0 +1,100 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyCallBar from '../components/StickyCallBar.astro';
+import { site } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  robotsNoindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { title, description, robotsNoindex = false, jsonLd } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).toString();
+const jsonLdEntries = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+
+const localBusinessLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: site.name,
+  image: `${site.url}/favicon.svg`,
+  url: site.url,
+  telephone: site.phoneHref.replace('tel:', ''),
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.street,
+    postalCode: site.postalCode,
+    addressLocality: site.city,
+    addressCountry: 'DE',
+  },
+  areaServed: 'Rheinhessen und Rhein-Main-Gebiet',
+  priceRange: '$$',
+};
+---
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {robotsNoindex && <meta name="robots" content="noindex, follow" />}
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preload" href="/fonts/archivo-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/archivo-700.woff2" as="font" type="font/woff2" crossorigin />
+
+  <script is:inline>
+    document.documentElement.classList.add('js');
+  </script>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={site.name} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:locale" content="de_DE" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessLd)} />
+  {jsonLdEntries.map((entry) => (
+    <script type="application/ld+json" set:html={JSON.stringify(entry)} />
+  ))}
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <Header />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer />
+  <StickyCallBar />
+  <script src="../scripts/reveal.ts"></script>
+</body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: var(--c-ink-900);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+  }
+  .skip-link:focus {
+    left: 20px;
+    top: 20px;
+  }
+
+  @media (max-width: 767px) {
+    body { padding-bottom: 56px; }
+  }
+</style>

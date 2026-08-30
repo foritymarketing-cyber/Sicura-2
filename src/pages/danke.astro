@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../lib/site';
+
+const title = 'Danke für Ihre Anfrage | Sicura Sicherheitstechnik';
+const description = 'Ihre Anfrage ist bei uns angekommen. Wir melden uns bei Ihnen.';
+---
+
+<BaseLayout title={title} description={description} robotsNoindex>
+  <section class="section">
+    <div class="container-content">
+      <h1>Ihre Anfrage ist angekommen</h1>
+      <p>Vielen Dank. Wir sehen uns Ihre Nachricht an und melden uns bei Ihnen. Wenn es eilig ist, rufen Sie gerne direkt an: <a href={site.phoneHref}>{site.phoneDisplay}</a>.</p>
+      <a class="btn btn-secondary" href="/">Zurück zur Startseite</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .section { padding-block: var(--s-10); text-align: center; }
+  .section h1 { font-size: var(--t-h1); margin-bottom: var(--s-4); }
+  .section p { color: var(--c-ink-600); max-width: var(--w-text); margin-inline: auto; margin-bottom: var(--s-6); }
+  .section p a { color: var(--c-primary-700); }
+</style>

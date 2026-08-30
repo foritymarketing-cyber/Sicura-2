@@ -1,0 +1,133 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import ServiceBlock from '../components/ServiceBlock.astro';
+import VisualBand from '../components/VisualBand.astro';
+import Quote from '../components/Quote.astro';
+import ReviewBlock from '../components/ReviewBlock.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../lib/site';
+
+const title = 'Sicherheitstechnik Dalheim – Videoüberwachung und Alarmanlagen | Sicura';
+const description = 'Videoüberwachung, Einbruchmeldeanlagen und Wartung für Rheinhessen und das Rhein-Main-Gebiet. Inhabergeführt seit 2010, Beratung kostenlos. Jetzt anrufen.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Hero
+    variant="home"
+    eyebrow="Sicherheitstechnik seit 2010"
+    title="Sicherheitstechnik aus Dalheim – Videoüberwachung und Alarmanlagen für Rheinhessen und das Rhein-Main-Gebiet"
+    lead="Wir planen, installieren und warten Anlagen, die zu Ihrem Gebäude passen – nicht zu einem Katalog. Inhabergeführt, mit festen Ansprechpartnern, seit 2010."
+    ctaPrimary={{ label: 'Kostenlose Schwachstellenanalyse anfragen', href: '/kontakt/' }}
+    ctaSecondary={{ label: site.phoneDisplay, href: site.phoneHref }}
+  />
+
+  <TrustBar />
+
+  <section class="section">
+    <div class="container-content">
+      <h2>Was wir machen</h2>
+      <div class="service-stack" data-reveal-group>
+        <ServiceBlock
+          variant="left"
+          index="01"
+          art="camera"
+          title="Videoüberwachung"
+          description="Kameratechnik für Wohnhäuser, Werkstatt, Lager oder Praxis – geplant für die Stellen, an denen sie wirklich etwas bringt, und datenschutzkonform eingerichtet."
+          href="/leistungen/videoueberwachung/"
+          ctaLabel="Mehr zur Videoüberwachung"
+        />
+        <ServiceBlock
+          variant="right"
+          index="02"
+          art="alarm"
+          title="Einbruchmeldeanlagen"
+          description="Alarmtechnik, die meldet, bevor Schaden entsteht. Funk oder verkabelt, nachrüstbar im Bestand, Meldung direkt auf Ihr Telefon."
+          href="/leistungen/einbruchmeldeanlagen/"
+          ctaLabel="Mehr zu Einbruchmeldeanlagen"
+        />
+        <ServiceBlock
+          variant="wide"
+          index="03"
+          title="Service und Wartung"
+          description="Wir bleiben nach der Installation Ihr Ansprechpartner: Wartung, Reparatur und Erweiterung der Anlagen, die wir gebaut haben."
+          href="/leistungen/service-wartung/"
+          ctaLabel="Mehr zu Service und Wartung"
+        />
+      </div>
+    </div>
+  </section>
+
+  <VisualBand />
+
+  <Quote text="Wir nennen unsere Kunden nicht. Auch Sie nicht." />
+
+  <section class="section section--alt">
+    <div class="container-content">
+      <h2>Warum Kunden uns anrufen</h2>
+      <div class="why-grid" data-reveal-group>
+        <div data-reveal>
+          <h3>Ein Ansprechpartner, kein Callcenter.</h3>
+          <p>Sie sprechen mit der Person, die Ihre Anlage geplant hat – vorher, bei der Montage und Jahre später, wenn etwas nachgerüstet werden soll.</p>
+        </div>
+        <div data-reveal>
+          <h3>Planung statt Katalogware.</h3>
+          <p>Wir schauen uns Ihr Objekt an, bevor wir über Technik reden. Welche Zugänge hat es, wo ist es nachts dunkel, was ist wirklich schützenswert. Erst danach entscheidet sich, welche Kameras oder Melder sinnvoll sind.</p>
+        </div>
+        <div data-reveal>
+          <h3>Wir bleiben da.</h3>
+          <p>Eine Sicherheitsanlage ist kein Gerät, das man aufhängt und vergisst. Wir warten, was wir installiert haben, und erweitern es, wenn sich Ihre Situation ändert.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-content" data-reveal>
+      <p class="eyebrow">Aus der Praxis</p>
+      <h3>Klinik im Rhein-Main-Gebiet</h3>
+      <!-- TODO(Notion 17/F5, ⟨fall-1⟩): Ausgangslage und Ergebnis der Kundin telefonisch abstimmen, bevor diese Seite live geht. -->
+      <p class="case-teaser-text">Ausgangslage und Ergebnis dieses Falls liegen noch nicht zur Veröffentlichung vor – Freigabe der Kundin steht aus.</p>
+      <a class="service-link" href="/referenzen/">
+        Weitere Beispiele ansehen
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </a>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container-content" data-reveal>
+      <h2>Was Kunden sagen</h2>
+      <ReviewBlock
+        reviews={[
+          { rating: site.reviews.google.rating, count: site.reviews.google.count, source: 'Google', asOf: site.reviews.google.asOf },
+          { rating: site.reviews.infobel.rating, count: site.reviews.infobel.count, source: 'Infobel', asOf: site.reviews.infobel.asOf },
+        ]}
+      />
+    </div>
+  </section>
+
+  <CtaBand
+    variant="dark"
+    title="Reden wir über Ihr Objekt"
+    description="Die erste Einschätzung kostet Sie nichts – ein Anruf genügt. Wenn Sie lieber schreiben, melden wir uns zurück."
+  />
+</BaseLayout>
+
+<style>
+  .section { padding-block: var(--s-9); }
+  .section h2 { margin-bottom: var(--s-6); }
+  .service-stack { display: flex; flex-direction: column; }
+  .why-grid { display: grid; gap: var(--s-6); }
+  @media (min-width: 768px) {
+    .why-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .why-grid h3 { margin-bottom: var(--s-2); }
+  .why-grid p { color: var(--c-ink-600); }
+  .case-teaser-text { color: var(--c-ink-600); margin-block: var(--s-3) var(--s-4); max-width: var(--w-text); }
+  .service-link {
+    display: inline-flex; align-items: center; gap: var(--s-1);
+    color: var(--c-primary-700); font-weight: 500;
+  }
+</style>

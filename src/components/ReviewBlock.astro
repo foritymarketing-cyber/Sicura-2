@@ -1,0 +1,38 @@
+---
+interface Review { rating: number; count: number; source: string; asOf: string; profileUrl?: string }
+interface Props { reviews: Review[] }
+const { reviews } = Astro.props;
+const starPath = 'M10 1.5l2.5 5.6 6.1.6-4.6 4.1 1.3 6-5.3-3.1-5.3 3.1 1.3-6-4.6-4.1 6.1-.6L10 1.5Z';
+---
+
+<div class="review-block" data-reveal-group>
+  {reviews.map((review) => (
+    <div class="review-row" data-reveal>
+      <div class="stars" aria-hidden="true">
+        {Array.from({ length: 5 }).map(() => (
+          <svg viewBox="0 0 20 20" width="18" height="18"><path d={starPath} fill="var(--c-accent-600)" /></svg>
+        ))}
+      </div>
+      <p>
+        <strong>{review.rating.toFixed(1).replace('.', ',')} von 5</strong> bei {review.count} Bewertungen auf {review.source}{' '}
+        <span class="review-date">· Stand {review.asOf}</span>
+        {review.profileUrl && (
+          <>
+            {' '}·{' '}
+            <a href={review.profileUrl} rel="noopener">Zum Profil</a>
+          </>
+        )}
+      </p>
+    </div>
+  ))}
+</div>
+
+<style>
+  .review-block { display: flex; flex-direction: column; gap: var(--s-3); }
+  .review-row { display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap; }
+  .stars { display: flex; gap: 2px; }
+  .review-row p { color: var(--c-ink-600); font-size: var(--t-small); }
+  .review-row strong { color: var(--c-ink-900); }
+  .review-date { color: var(--c-ink-400); }
+  .review-row a { color: var(--c-primary-700); text-decoration: underline; text-underline-offset: 3px; }
+</style>

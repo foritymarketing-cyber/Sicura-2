@@ -1,0 +1,49 @@
+---
+interface Props {
+  branche: string;
+  ausgangslage: string;
+  loesung: string;
+  ergebnis: string;
+}
+const { branche, ausgangslage, loesung, ergebnis } = Astro.props;
+---
+
+<article class="case-card" data-reveal>
+  <p class="eyebrow">{branche}</p>
+  <dl>
+    <div>
+      <dt>Ausgangslage</dt>
+      <dd>{ausgangslage}</dd>
+    </div>
+    <div>
+      <dt>Lösung</dt>
+      <dd>{loesung}</dd>
+    </div>
+    <div>
+      <dt>Ergebnis</dt>
+      <dd>{ergebnis}</dd>
+    </div>
+  </dl>
+</article>
+
+<style>
+  .case-card {
+    padding: var(--s-6);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius);
+    background: var(--c-paper-0);
+    transition: border-color var(--m-base) var(--m-ease);
+  }
+  .case-card:hover {
+    border-color: var(--c-primary-700);
+  }
+  .case-card .eyebrow { margin-bottom: var(--s-4); }
+  .case-card dl { display: flex; flex-direction: column; gap: var(--s-4); }
+  .case-card dt {
+    font-size: var(--t-small);
+    font-weight: 500;
+    color: var(--c-ink-900);
+    margin-bottom: var(--s-1);
+  }
+  .case-card dd { color: var(--c-ink-600); }
+</style>

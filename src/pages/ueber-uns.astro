@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Quote from '../components/Quote.astro';
+import { site } from '../lib/site';
+
+const title = 'Über uns – inhabergeführter Fachbetrieb seit 2010 | Sicura';
+const description = 'Sicura Sicherheitstechnik aus Dalheim: inhabergeführt seit 2010, Techniker und Fachkraft für Schutz und Sicherheit, tätig in Rheinhessen und Rhein-Main.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Hero
+    eyebrow="Über uns"
+    title="Ein Betrieb, kein Vertriebsnetz"
+    lead="Sicura Sicherheitstechnik gibt es seit 2010. Wir sind ein inhabergeführter Fachbetrieb in Dalheim in Rheinhessen – klein genug, dass Sie immer dieselben Leute am Telefon haben, und lange genug am Markt, um zu wissen, was hält."
+  />
+
+  <section class="section prose-content">
+    <div class="container-content prose-content">
+      <h2>Wie wir arbeiten</h2>
+      <p><strong>Erst hinsehen.</strong> Jedes Projekt beginnt mit einem Termin am Objekt. Ohne diesen Termin gibt es kein Angebot, weil jede Zahl vorher geraten wäre.</p>
+      <p><strong>Dann planen.</strong> Sie bekommen einen Vorschlag, der erklärt, warum welche Technik an welche Stelle kommt – und was Sie sich sparen können.</p>
+      <p><strong>Dann bauen.</strong> Die Montage machen wir selbst. Keine wechselnden Subunternehmer, die Ihr Haus zum ersten Mal sehen.</p>
+      <p><strong>Dann bleiben.</strong> Nach der Einweisung sind wir Ihr Ansprechpartner für Wartung, Störungen und Erweiterungen.</p>
+
+      <h2>Qualifikation</h2>
+      <p>
+        Techniker sowie Fachkraft für Schutz und Sicherheit. Wir planen und installieren Systeme von Ajax, Hikvision, Axis, Lupus und Jablotron.
+        <a href="/partner/">Zu unseren Partnern</a>
+      </p>
+
+      <h2>Warum Sie hier keine Fotos von uns finden</h2>
+      <p>Wir arbeiten in Häusern und Betrieben, in denen Diskretion zur Leistung gehört. Das fängt bei uns selbst an: Wen Sie bekommen, wissen Sie spätestens beim ersten Termin.</p>
+    </div>
+  </section>
+
+  <Quote tone="paper-50" text="Wir zeigen weder unsere Kunden noch deren Anlagen – und halten es bei den eigenen Porträts genauso." />
+
+  <section class="section prose-content">
+    <div class="container-content prose-content">
+      <h2>Wo wir arbeiten</h2>
+      <p>{site.serviceArea}</p>
+    </div>
+  </section>
+
+  <section class="cta-band-custom">
+    <div class="container-content cta-inner">
+      <h2>Termin vereinbaren</h2>
+      <a class="btn btn-primary" href={site.phoneHref}>{site.phoneDisplay}</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .section { padding-block: var(--s-9); }
+  .section h2 { margin-bottom: var(--s-3); }
+  .section h2:not(:first-child) { margin-top: var(--s-7); }
+  .section p { color: var(--c-ink-600); max-width: var(--w-text); margin-bottom: var(--s-3); }
+  .section p a { color: var(--c-primary-700); text-decoration: underline; text-underline-offset: 3px; }
+  .section strong { color: var(--c-ink-900); }
+
+  .cta-band-custom { background: var(--c-paper-50); padding-block: var(--s-8); }
+  .cta-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-5); }
+</style>

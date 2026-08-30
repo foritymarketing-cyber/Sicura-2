@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import CaseCard from '../components/CaseCard.astro';
+import ReviewBlock from '../components/ReviewBlock.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../lib/site';
+
+const title = 'Referenzen – anonymisierte Projekte | Sicura Sicherheitstechnik';
+const description = 'Drei Projekte aus Rheinhessen und dem Rhein-Main-Gebiet – anonymisiert, weil Diskretion bei Sicherheitstechnik zur Leistung gehört.';
+
+// TODO(Notion 17/F5, F6, Platzhalter ⟨fall-1⟩ ⟨fall-2⟩ ⟨fall-3⟩ in Notion 19):
+// Ausgangslage, Lösung und Ergebnis der drei Fallbeispiele fehlen noch —
+// die Kundin muss sie telefonisch freigeben. Nicht durch einen Agenten ausfüllen.
+const placeholder = 'Freigabe der Kundin für diesen Abschnitt steht noch aus.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Hero
+    eyebrow="Referenzen"
+    title="Projekte, über die wir sprechen dürfen – ohne Namen"
+    lead="Wir nennen unsere Kunden nicht. Auch Sie nicht. Wer eine Alarmanlage oder Kameratechnik einbauen lässt, möchte nicht, dass das öffentlich nachlesbar ist – und ein Foto einer fertigen Installation zeigt jedem, der es sehen will, wo die Kameras hängen. Deshalb finden Sie hier keine Logos und keine Objektfotos, sondern drei Projekte in ihrer Substanz."
+  />
+
+  <section class="section">
+    <div class="container-content case-grid" data-reveal-group>
+      <CaseCard branche="Klinik im Rhein-Main-Gebiet" ausgangslage={placeholder} loesung={placeholder} ergebnis={placeholder} />
+      <CaseCard branche="Waschstraße im Rhein-Main-Gebiet" ausgangslage={placeholder} loesung={placeholder} ergebnis={placeholder} />
+      <CaseCard branche="Arztpraxen in Wiesbaden" ausgangslage={placeholder} loesung={placeholder} ergebnis={placeholder} />
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container-content" data-reveal>
+      <h2>Bewertungen</h2>
+      <ReviewBlock
+        reviews={[
+          { rating: site.reviews.google.rating, count: site.reviews.google.count, source: 'Google', asOf: site.reviews.google.asOf },
+          { rating: site.reviews.infobel.rating, count: site.reviews.infobel.count, source: 'Infobel', asOf: site.reviews.infobel.asOf },
+        ]}
+      />
+    </div>
+  </section>
+
+  <CtaBand title="Über Ihr Objekt sprechen" />
+</BaseLayout>
+
+<style>
+  .section { padding-block: var(--s-9); }
+  .section h2 { margin-bottom: var(--s-5); }
+  .case-grid { display: grid; gap: var(--s-6); }
+  @media (min-width: 768px) {
+    .case-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
