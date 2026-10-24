@@ -1,0 +1,152 @@
+# ==========================================================================
+# Sicura Sicherheitstechnik – Apache-Konfiguration für STRATO
+# ==========================================================================
+
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # ---- HTTPS erzwingen ----
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://www.sicura-sicherheitstechnik.de%{REQUEST_URI} [R=301,L]
+
+  # ---- Einheitlich mit www (wie Canonical-Adressen und Sitemap) ----
+  RewriteCond %{HTTP_HOST} ^sicura-sicherheitstechnik\.de$ [NC]
+  RewriteRule ^ https://www.sicura-sicherheitstechnik.de%{REQUEST_URI} [R=301,L]
+
+  # ---- Interne Dateien und Verzeichnisse sperren ----
+  # Versteckte Dateien/Ordner (.git, .env, .claude, .DS_Store …)
+  RewriteCond %{REQUEST_URI} !^/\.well-known/
+  RewriteRule (^|/)\. - [F,L]
+  # Interne PHP-Hilfsdateien, Captcha-Quellbild, Werkzeuge
+  RewriteRule ^api/(_intern|captcha)(/|$) - [F,L]
+  RewriteRule ^(tools|docs)(/|$) - [F,L]
+  # Nur die zwei öffentlichen API-Endpunkte sind abrufbar
+  RewriteCond %{REQUEST_URI} \.php$ [NC]
+  RewriteCond %{REQUEST_URI} !^/api/(kontakt|captcha)\.php$ [NC]
+  RewriteRule ^ - [F,L]
+  # Projekt-, Sicherungs- und Konfigurationsdateien
+  RewriteRule \.(md|sh|json|lock|log|bak|backup|old|orig|sql|zip|tar|gz|ini|env|yml|yaml|swp)$ - [F,L,NC]
+  RewriteRule ~$ - [F,L]
+
+  # ---- Alte Leistungs-Adressen (/leistungen/xyz) dauerhaft umleiten ----
+  # Auch mit /index.html am Ende, so wie die alte Website verlinkt war.
+  RewriteRule ^leistungen/(videoueberwachung|einbruchmeldeanlagen|service-wartung|verdeckte-videoueberwachung|kurzeinsaetze)(/(index\.html?)?)?$ /leistungen-$1 [R=301,L]
+
+  # ---- Adressen der alten WordPress-Website dauerhaft umleiten ----
+  # Liste aus dem Internet Archive (Stand 23.10.2026). Thematisch passende
+  # Seiten auf die passende Seite, alles ohne Entsprechung auf die Startseite.
+  # Bewusst nur bekannte Adressen, keine Sammelregel: echte Tippfehler sollen
+  # weiter eine 404 liefern. Auch mit /index.html am Ende.
+  # Der lokale Vorschau-Router (.claude/php-router.php) liest diesen Block ein.
+  # Vermietung → Kurzeinsätze
+  RewriteRule ^(sicherheitstechnik-auf-mietbasis|technik-auf-mietbasis|technik-auf-mietbasis-verleih|ueberwachungs-technik-kamera-kaufen-mieten-leihen|videoueberwachung-leasing-kaufen-mieten-leihen|videoueberwachung-mieten-leihen|videoueberwachung-und-sicherheitstechnik-auf-mietbasis|vermietung-verleih-von-videoueberwachungstechnik-[^/]*)(/(index\.html?)?)?$ /leistungen-kurzeinsaetze [R=301,L,NC]
+  # Verdeckte Videoüberwachung
+  RewriteRule ^(verdeckte-videoueberwachung|vedeckte-videoueberwachung|verdeckte-ueberwachungskamera|verdeckte-videoueberwachung-am-arbeitsplatz|mitarbeiterueberwachung-verdeckte-kameraueberwachung|heimliche-mitarbeiterueberwachung-am-arbeitsplatz|kameraueberwachung-am-arbeitsplatz)(/(index\.html?)?)?$ /leistungen-verdeckte-videoueberwachung [R=301,L,NC]
+  # Videoüberwachung
+  RewriteRule ^(videoueberwachung|videoueberwachung-2|videoueberwachung-alarmtechnik-in-wiesbaden|videoueberwachung-einbau-in-frankurt-und-umgebung|videoueberwachung-frankfurt-mainz-darmstadt-worms-hanau|videoueberwachung-fuer-jedermann|videoueberwachung-fuer-mehr-schutz-und-besseren-ueberblick|videoueberwachung-in-frankfurt|videoueberwachung-installation|videoueberwachung-installation-2|videoueberwachung-installation-frankfurt|videoueberwachung-kameraueberwachung|videoueberwachung-kameraueberwachung-2|videoueberwachung-kameraueberwachung-vom-fachmann|videoueberwachung-mit-handy-app|videoueberwachung-neuheiten-2017|videoueberwachung-neuheiten-2020|videoueberwachung-richtig-kaufen|videoueberwachung-videoueberwachung-in-mainz|videoueberwachung-videoueberwachungstechnik|4k-ultra-hd-ueberwachungstechnik-zum-bezahlbaren-preis|analoge-videoueberwachung|bester-service-videoueberwachung|hd-sdi-technik|hd-sdi-ueberwachungskamera-ip-kamera|hd-videoueberwachung|high-end-videoueberwachung-vom-fachhandel|hikvision-5mp-tvi-kamera|installation-videoueberwachung|installation-von-videoueberwachung-kameraueberwachung|ip-kamera-hd-sdi-kamera-vom-fachmann|kamerainstallation-kameraeinbau|kameraueberwachung-einbau|kameraueberwachung-einbau-2|kameraueberwachung-kaufen|mini-ueberwachungskamera|neuer-accu-seek-rekorder-von-hivision-mehr-intelligenz-fuer-ihre-sicherheit|preiswerte-videoueberwachungstechnik|professionelle-videoueberwachung|profi-videoueberwachung|seetec-cayuga-software|smartphone-steuerung|ueberwachungskamera-installation-einbau|ueberwachungskamera-kameraueberwachung|wlan-mini-ueberwachungskamera-full-hd)(/(index\.html?)?)?$ /leistungen-videoueberwachung [R=301,L,NC]
+  # Einbruchmeldeanlagen (inkl. Alarmaufschaltung)
+  RewriteRule ^(alarmanlagen|alarmanlage|alarm-und-sicherheitstechnik|alarmanlage-lupus-xt3-bei-sicura-sicherheitstechnik|alarmtechnik-alarmanalgen|installation-alarmanlagen|einbruch-schutz-fuer-privat-und-gewerbe|alarm-monitoring|alarmaufschaltung|monitoring-preisliste)(/(index\.html?)?)?$ /leistungen-einbruchmeldeanlagen [R=301,L,NC]
+  # Service & Wartung
+  RewriteRule ^(dienstleitungen-und-service|sorglos-sicherheit-paket)(/(index\.html?)?)?$ /leistungen-service-wartung [R=301,L,NC]
+  # Leistungsübersicht
+  RewriteRule ^(sicherheitsloesungen|schutz-und-sicherheitstechnik|sicherheitstechnik-fuer-privat-und-gewerbe|eigenheim-schuetzen-durch-kameraueberwachung-und-alarmanlage|eigenheim-schuetzen-durch-videoueberwachung-alarmanlage)(/(index\.html?)?)?$ /leistungen [R=301,L,NC]
+  # Hersteller und Partner
+  RewriteRule ^(kooperationspartner|fachhandelspartner-im-bereich-videoueberwachung-alarmanlagen|axis|hikvision-bei-sicura-sicherheitstechnik|axis-mobotix-geutebrueck-abus-technik-vom-fachmann|sicherheitsloesungen/mobotix)(/(index\.html?)?)?$ /partner [R=301,L,NC]
+  # Kontakt
+  RewriteRule ^(kontaktformular|kontaktieren-sie-uns|beratung)(/(index\.html?)?)?$ /kontakt [R=301,L,NC]
+  # Blog → Ratgeber
+  RewriteRule ^(blog|news-updates|category/[^/]+|author/[^/]+)(/(index\.html?)?)?$ /ratgeber [R=301,L,NC]
+  # Ohne passendes Angebot → Startseite
+  RewriteRule ^(tag/[^/]+|2012-sicherheit-fuer-alle|2017-sicherheit-fuer-alle|allgemeine-geschaeftsbedingungen|aufspuehrgeraete|bewerten-sie-uns|bildrechte|cookie-richtlinie-eu|dienstleitungen-und-service/haustechnik-smarthome|gps-ortung|gps-ortungsgeraet-unsichtbares-bluetooth-headset-wanzen-wanzenfinder-sos-notrufmelder|karriere|kundeninformationen|lone-worker-schutz-einzelarbeitsplatz-schutz|modernste-ueberwachungstechnik-fuer-alle|muster-wiederrufsformular|netzwerk-sicherheitspruefung-sicherheit-check|nuetzliche-links|ortungsgeraete|praevention|schutz|secura|sicherheitsloesungen/gps|sicura-sicherheitstechnik|sicura-sicherheitstechnik-hochwertige-produkte-zu-guenstigen-preisen|stand-alone-technik-der-zukunft|technik-von-profis-fuer-profis|w-lan-technik|widerrufsbelehrung)(/(index\.html?)?)?$ / [R=301,L,NC]
+  # ---- Ende alte Website ----
+
+  # ---- Schrägstrich am Ende entfernen (/impressum/ → /impressum) ----
+  # Sonst lädt die Seite ohne Styles, weil relative Pfade (styles.css,
+  # assets/…) dann unter /impressum/ gesucht werden.
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # ---- Aufrufe mit .html dauerhaft auf die Adresse ohne Endung umleiten ----
+  # /index.html → /, /kontakt.html → /kontakt (Query-String bleibt erhalten).
+  # THE_REQUEST prüft die Original-Anfrage, damit die interne Umschreibung
+  # unten keine Schleife auslöst.
+  RewriteCond %{THE_REQUEST} \s/+index\.html[?\s] [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
+  RewriteCond %{THE_REQUEST} \s/+([^?\s]+?)\.html[?\s] [NC]
+  RewriteRule ^(.+)\.html$ /$1 [R=301,L]
+
+  # ---- .html-Adressen ohne Endung ausliefern ----
+  # Clean URLs: /kontakt liefert kontakt.html aus
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^([^.]+?)/?$ $1.html [L]
+</IfModule>
+
+# Zusätzliche Sperre, falls mod_rewrite nicht greift
+<FilesMatch "(^\.|\.(md|sh|json|log|bak|sql|env|ini)$)">
+  Require all denied
+</FilesMatch>
+<Files "robots.txt">
+  Require all granted
+</Files>
+
+# ---- Sicherheitsheader ----
+<IfModule mod_headers.c>
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "accelerometer=(), autoplay=(self), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  # CSP: alles von der eigenen Domain; data: für die Captcha-Bilder;
+  # 'unsafe-inline' nur für style-Attribute im Markup (keine Inline-Skripte).
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+
+  # HSTS: HTTPS mit und ohne www geprüft (gültiges Zertifikat für beide,
+  # Weiterleitung auf https://www). Bewusst ohne includeSubDomains, damit
+  # eventuelle andere Subdomains ohne Zertifikat erreichbar bleiben.
+  Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
+
+  # Keine Zwischenspeicherung der API-Antworten
+  <FilesMatch "\.php$">
+    Header always set Cache-Control "no-store"
+  </FilesMatch>
+</IfModule>
+
+# ---- Dateitypen ----
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType image/svg+xml .svg
+  AddType font/woff2 .woff2
+  AddType video/mp4 .mp4
+  AddCharset utf-8 .html .css .js .xml .txt
+</IfModule>
+
+# ---- Caching statischer Dateien ----
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType text/javascript "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 30 days"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/xml image/svg+xml
+</IfModule>
