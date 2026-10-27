@@ -3865,18 +3865,6 @@ a[href^="mailto:"],
   margin: 0;
 }
 
-/* Rahmen um Foto und KI-Kennzeichnung, damit das Label auf dem Bild sitzt
-   und nicht über der Bildunterschrift. */
-.owner-photo {
-  display: block;
-  position: relative;
-}
-
-.owner-figure--small .ki-label {
-  right: 6px;
-  bottom: 6px;
-}
-
 .owner-figure img {
   display: block;
   width: 100%;
