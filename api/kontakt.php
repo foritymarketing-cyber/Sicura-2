@@ -118,7 +118,7 @@ if (count($recent) >= SUBMIT_LIMIT) {
 
 $topicLabel = $topic !== '' ? TOPICS[$topic] : 'nicht angegeben';
 
-$subject = 'Website-Anfrage: ' . $topicLabel . ' – ' . $name;
+$subject = 'Sicura Kundenanfrage über Homepage – ' . $name;
 $body = implode("\n", [
     'Neue Anfrage über das Kontaktformular der Website',
     '',
